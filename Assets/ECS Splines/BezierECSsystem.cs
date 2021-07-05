@@ -338,7 +338,7 @@ public struct MoveAlongBezierConstantDistance //TODO The idea behind this is sor
     public float3 Execute(float begintpos, float distance, BezierGraphSpawner currentBezier, out float placeonSpline, float direction = 1f)
     {
         float3 resultantPlaceonSpline = new float3();
-        float minDist = 0.01f;
+        float minDist = 0.001f; //This has to be this mindist for it to work 
 
         //for (float j = begintpos; j <= (endtpos + minDist); j += minDist)
         float calcdistance = 0f;
@@ -539,7 +539,7 @@ public class BezeirCreateEntitys : SystemBase
         float thedistance = 1.0f;
         float tempinto = 0f;
 
-        int numbofdudes = 30;
+        int numbofdudes = 50;
         //float otherpos = 0f;
         //for (int y = 0; y < 30; y++)
         {
