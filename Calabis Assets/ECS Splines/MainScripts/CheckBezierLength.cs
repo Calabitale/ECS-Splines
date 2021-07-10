@@ -18,7 +18,7 @@ public class CheckBezierLengthSystem : SystemBase
     protected override void OnCreate()
     {
         base.OnCreate();
-        //Enabled = false;
+        Enabled = false;
         BezierGraph_Query = GetEntityQuery(typeof(BezierGraphSpawner));
 
     }

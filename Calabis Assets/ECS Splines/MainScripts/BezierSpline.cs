@@ -4,49 +4,10 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-public class BezierSpline : MonoBehaviour//, IConvertGameObjectToEntity
+public class BezierSpline : MonoBehaviour
 {
-	//Todo See if I can convert this using a GameObjectConversionSystem straight to a blob
-
 	
-	public Vector3[] points;
-    //private Vector3[] points;
-    
-
-    
-    //I dont think I even need this
-    //public Transform BezierTransform;
-    //void Start()
-    //{
-    //    thisTransform = this.transform;
-    //}
-
-    //public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
-    //{
-        //thisTransform = this.transform;
-        //dstManager.SetName(entity, "BezierPosition");
-        //dstManager.AddComponent<BezierTransformComp>(entity);
-        //LocalToWorld templocal = new LocalToWorld();
-        //templocal.Value = transform.worldToLocalMatrix;
-        ////templocal.Value = transform.worldToLocalMatrix;
-
-        
-        ////var babyde = dudewtf
-        //dstManager.SetComponentData<BezierTransformComp>(entity, new BezierTransformComp { LTWValue = templocal });
-        //dstManager.AddComponentData(entity, new BezeirpointsTag());
-        //todo  Convert this into a blob later on perhaps-
-        //dstManager.AddBuffer<BezierpointsBuffer>(entity);
-        //new PhysicsGravityFactor { Value = 4 });
-        //DynamicBuffer<BezierpointsBuffer> danbuffer = dstManager.GetBuffer<BezierpointsBuffer>(entity);
-
-        //for (int i = 0; i < points.Length; i++)
-        //{
-        //    var teman = points[i];
-        //    var tempvar = new Translation { Value = new float3(teman) };
-        //    danbuffer.Add(tempvar);
-        //}
-
-    //}
+	public Vector3[] points;   
 
     [SerializeField]
 	private BezierControlPointMode[] modes;
