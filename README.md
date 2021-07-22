@@ -8,7 +8,7 @@ You place the script titled BezeirSpline onto an empty gameobject in the scene, 
 
 You can then adjust the spline in the editor just click on the points and add more parts it should be pretty straighforward.
 
-On running the program tha data then will be autoconverted to a BlobAsset.
+On running the program that data then will be autoconverted to a BlobAsset.
 
 You can then get that using BezierGraphSpawner with an EntityQuery.
 
