@@ -502,7 +502,7 @@ public class BezeirCreateEntitys : SystemBase
         Enabled = false;
         var tempgraphs = BezierGraph_Query.ToEntityArray(Allocator.Temp);
         //Gets the specific spline
-        var tempdoomps = EntityManager.GetComponentData<BezierGraphSpawner>(tempgraphs[0]);
+        var tempdoomps = EntityManager.GetComponentData<BezierBlobsRef>(tempgraphs[0]);
 
         //var currentBezier = tempdoomps;
 

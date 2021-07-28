@@ -7,11 +7,11 @@ using Unity.Mathematics;
 public struct CalcPositiononBezier
 {
 
-    public float3 Execute(float placeonSpline, BezierGraphSpawner currentBezier)
+    public float3 Execute(float placeonSpline, BezierBlobsRef currentBezier)
     {
         float3 resultPlaceonSpline = new float3();
 
-        ref var booked = ref currentBezier.BezzyGraphcomp.Value;
+        ref var booked = ref currentBezier.BlobrefVal.Value;
 
 
         var Curvecount = (booked.Bezzypoint.Length - 1) / 3;

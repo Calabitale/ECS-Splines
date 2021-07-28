@@ -25,7 +25,7 @@ public struct BezierGraphSpawner : IComponentData
 
 public class BezierblobConvert : GameObjectConversionSystem
 {
-    private EntityQuery m_Query;
+    private EntityQuery main_Query;
     
    // BlobAssetReference<NodeGraph> BuildNodeGraph(NodeAuthoring[] authoringNodes)
 //    {
@@ -72,11 +72,8 @@ public class BezierblobConvert : GameObjectConversionSystem
                 //bezeirnode[i] = beezyspline[i];
 
             }
-
             return Builder.CreateBlobAssetReference<Beziernode>(Allocator.Persistent);
         }
-
-
     }
 
     protected override void OnCreate()
@@ -84,7 +81,7 @@ public class BezierblobConvert : GameObjectConversionSystem
         base.OnCreate();
         Enabled = false;  //TODO It seems you are unable to disable GameObjectConversionSystems
         //Debug.Log("This should not be displaying");
-        m_Query = GetEntityQuery(typeof(BezierSpline));
+        //m_Query = GetEntityQuery(typeof(BezierSpline), ComponentType.ReadOnly<MainQueueNavPointTag>());
     }
       
 
@@ -95,10 +92,14 @@ public class BezierblobConvert : GameObjectConversionSystem
 
     protected override void OnUpdate()
     {
-        //TODO I need to make this work for multiple BezierSplines I can just use it multiple, it fooking works now
-        m_Query = GetEntityQuery(typeof(BezierSpline));
-        var bezeirnodes = m_Query.ToComponentArray<BezierSpline>();
 
+        main_Query = GetEntityQuery(typeof(BezierSpline), ComponentType.Exclude<MainQueueTestTag>());  
+
+        var BezzyMainQueueQuery = GetEntityQuery(typeof(BezierSpline), ComponentType.ReadOnly<MainQueueTestTag>());        
+
+        var bezeirnodes = main_Query.ToComponentArray<BezierSpline>();
+
+        var mainQueueNodes = BezzyMainQueueQuery.ToComponentArray<BezierSpline>();
 
         if (bezeirnodes.Length == 0) return;
         
@@ -111,12 +112,41 @@ public class BezierblobConvert : GameObjectConversionSystem
 
             Entity tempent = DstEntityManager.CreateEntity();
             //TODO This does not seem to be working
-            EntityManager.SetName(tempent, "BezierGraphPoints");
+            //EntityManager.SetName(tempent, "BezierGraphPoints");
+            DstEntityManager.AddComponent(tempent, typeof(BezierBlobsRef));
 
-            DstEntityManager.AddComponentData(tempent, new BezierGraphSpawner()
+            DstEntityManager.AddComponentData(tempent, new BezierBlobsRef()
             {
-                BezzyGraphcomp = nodeGraph
+                BlobrefVal = nodeGraph
 
+            });
+
+        }
+
+        if (mainQueueNodes.Length == 0) return;
+
+        for (int i = 0; i < mainQueueNodes.Length; i++)
+        {
+            var beezypoints = mainQueueNodes[i].points;
+            var BezeirMainTransform = mainQueueNodes[i].transform;
+
+            var nodeGraph = BuildBezeirspline(beezypoints, BezeirMainTransform);
+
+            Entity tempent = DstEntityManager.CreateEntity();                  
+
+            //DstEntityManager.AddComponentData(tempent, new BezierGraphSpawner()
+            //{
+            //    BezzyGraphcomp = nodeGraph
+
+            //});
+
+            
+            DstEntityManager.AddComponent(tempent, typeof(MainQueueNavPointTag));
+            DstEntityManager.AddComponent(tempent, typeof(BezierBlobsRef));
+
+            DstEntityManager.AddComponentData(tempent, new BezierBlobsRef()
+            {
+                BlobrefVal = nodeGraph
             });
 
         }
@@ -127,11 +157,11 @@ public class BezierblobConvert : GameObjectConversionSystem
         //The size is 16 that is correct
 
         //Debug.Log("Beezey points" + beezypoints.Length);
-        
+
         //var beezys = Array.FindAll(bezeirnodes, BezierCurve => GeneratePoints.length > 0); //node => node.links.Length > 0);
 
         //var nodeGraph = BuildBezeirspline(beezypoints, BezeirMainTransform);
-        
+
         //Debug.Log("This thing is currently" + nodeGraph.Value.Bezzypoint.Length);
 
 
@@ -147,9 +177,14 @@ public class BezierblobConvert : GameObjectConversionSystem
         //    BezzyGraphcomp = nodeGraph
 
         //});
-    
+
 
     }
+}
+
+public struct BezierBlobsRef : IComponentData
+{
+    public BlobAssetReference<Beziernode> BlobrefVal;
 }
 
 //public class TestViewBezeyBlob : JobComponentSystem

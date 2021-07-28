@@ -8,7 +8,7 @@ using Unity.Mathematics;
 public struct CalcDistAlongBezier //Calculalates and returns the distance along the bezier
 {
 
-    public float3 Execute(float begintpos, float distance, BezierGraphSpawner currentBezier, out float placeonSpline, float direction = 1f)
+    public float3 Execute(float begintpos, float distance, BezierBlobsRef currentBezier, out float placeonSpline, float direction = 1f)
     {
         float3 resultantPlaceonSpline = new float3();
         float minDist = 0.001f;
@@ -35,7 +35,7 @@ public struct CalcDistAlongBezier //Calculalates and returns the distance along 
                 return new float3(0, -200, 0);
             }
 
-            ref var booked = ref currentBezier.BezzyGraphcomp.Value;
+            ref var booked = ref currentBezier.BlobrefVal.Value;
             var Curvecount = (booked.Bezzypoint.Length - 1) / 3;
                       
             float tempval = placeonSpline;

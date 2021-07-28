@@ -9,12 +9,12 @@ using Unity.Transforms;
 public struct CalcDirectionAlongBezier
 {
 
-    public Rotation Execute(float placeonSpline, BezierGraphSpawner currentBezier, float direction = 1f)//These only work in one direction but keep this for just in case I even get around to making it work in both directions
+    public Rotation Execute(float placeonSpline, BezierBlobsRef currentBezier, float direction = 1f)//These only work in one direction but keep this for just in case I even get around to making it work in both directions
     {
         var rutate = new Rotation();
 
 
-        ref var booked = ref currentBezier.BezzyGraphcomp.Value;
+        ref var booked = ref currentBezier.BlobrefVal.Value;
 
         var Curvecount = (booked.Bezzypoint.Length - 1) / 3;
 
